@@ -2,6 +2,7 @@ import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
+import dotenv from 'dotenv';
 import svelte from 'rollup-plugin-svelte';
 import { terser } from 'rollup-plugin-terser';
 import config from 'sapper/config/rollup.js';
@@ -25,7 +26,10 @@ export default {
     plugins: [
       replace({
         'process.browser': true,
-        'process.env.NODE_ENV': JSON.stringify(mode),
+        'process.env': JSON.stringify({
+          NODE_ENV: mode,
+          ...dotenv.config().parsed,
+        }),
       }),
       svelte({
         dev,
@@ -38,6 +42,7 @@ export default {
       resolve({
         browser: true,
         dedupe: ['svelte'],
+        mainFields: ['main'],
       }),
       commonjs(),
 

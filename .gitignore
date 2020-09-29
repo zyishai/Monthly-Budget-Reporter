@@ -3,3 +3,9 @@
 /src/node_modules/@sapper/
 yarn-error.log
 /__sapper__/
+.env
+
+# firebase files
+.firebaserc
+database.rules.json
+firebase.json
