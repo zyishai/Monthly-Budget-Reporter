@@ -4,7 +4,7 @@ import { readable } from 'svelte/store';
 
 /**
  * @typedef {String} ID
- * @typedef {{id?: ID, item: string, cost: number}} Expense
+ * @typedef {{id?: ID, item: string, cost: number, date: number, notes: string}} Expense
  * @typedef {import('svelte/store').Readable<Expense[]> & {
  *  addExpense: (expense: Expense) => ID,
  *  updateExpense: (id: ID, expense: Expense) => ID,
@@ -38,12 +38,15 @@ export const getStoreForCategory = (categoryId) => {
   return {
     subscribe,
     addExpense: (expense) => {
+      expense.date = Date.now();
       const { key } = ref.push(expense);
       return key;
     },
     updateExpense: (id, expense) => {
       const { item, cost } = expense;
-      ref.child(id).update({ item, cost });
+      ref
+        .child(id)
+        .update({ item, cost, date: expense.date, notes: expense.notes });
       return id;
     },
     reset: () => ref.remove(),
