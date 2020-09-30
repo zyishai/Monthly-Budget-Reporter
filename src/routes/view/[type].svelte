@@ -1,6 +1,7 @@
 <script context="module">
   import firebase from 'firebase/app';
 import 'firebase/database';
+import AddExpenseButton from "../../components/AddExpenseButton.svelte";
 import ExpensesTable from "../../components/ExpensesTable.svelte";
   export async function preload(page) {
     const { type: categoryUrl } = page.params;
@@ -25,6 +26,9 @@ import ExpensesTable from "../../components/ExpensesTable.svelte";
       <span class="text-gray-700">הוצאה מקסימלית חודשית:</span> {category.maxExpense} ₪
     </h3>
 
-    <ExpensesTable categoryId={categoryUrl} />
+    <div class="flex-1 self-stretch mb-2">
+      <ExpensesTable categoryId={categoryUrl} />
+    </div>
+    <AddExpenseButton categoryId={categoryUrl} />
   {/if}
 </div>
