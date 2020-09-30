@@ -1,10 +1,7 @@
 <script>
-  import { categories } from '../store/categories';
+  import { categories } from '../stores/categories';
 import AddCategoryButton from './AddCategoryButton.svelte';
 import LeftArrow from './svg/LeftArrow.svelte';
-
-
-
 
 export let segment = 'home';
 </script>

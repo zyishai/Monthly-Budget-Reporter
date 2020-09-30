@@ -1,7 +1,8 @@
 <script>
   import { getContext } from 'svelte';
-import { addCategory } from '../store/categories';
+import { addCategory } from '../stores/categories';
 import AddCategory from './modals/AddCategory.svelte';
+
 
 
 
