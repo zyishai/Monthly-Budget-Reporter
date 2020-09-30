@@ -1,6 +1,7 @@
 <script context="module">
   import firebase from 'firebase/app';
 import 'firebase/database';
+import ExpensesTable from "../../components/ExpensesTable.svelte";
   export async function preload(page) {
     const { type: categoryUrl } = page.params;
 
@@ -8,12 +9,13 @@ import 'firebase/database';
     const ref = db.ref(`categories/${categoryUrl}`);
     const category = await ref.once('value').then(snapshot => snapshot.val());
 
-    return { category };
+    return { category, categoryUrl };
   }
 </script>
 
 <script>
   export let category;
+  export let categoryUrl;
 </script>
 
 <div class="flex-1 flex flex-col items-center p-4 overflow-hidden">
@@ -22,5 +24,7 @@ import 'firebase/database';
     <h3 class="text-lg tracking-wide mb-5">
       <span class="text-gray-700">הוצאה מקסימלית חודשית:</span> {category.maxExpense} ₪
     </h3>
+
+    <ExpensesTable categoryId={categoryUrl} />
   {/if}
 </div>
