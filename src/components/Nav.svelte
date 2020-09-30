@@ -17,8 +17,8 @@ export let segment = 'home';
   <ul class="flex-1">
     {#each $categories as category}
       <li>
-        <a rel="prefetch" href="{category.noView ? '' : 'view/'}{category.url}" 
-          class="flex items-center gap-x-2 p-2 hover:text-purple-400 {segment === category.url ? 'active' : ''}">
+        <a rel="prefetch" href="{category.noView ? category.url : `view/${category.id}`}" 
+          class="flex items-center gap-x-2 p-2 hover:text-purple-400 {segment === category.id ? 'active' : ''}">
           <LeftArrow class="h-2 w-2 overflow-hidden" />
           <span>{category.name}</span>
         </a>

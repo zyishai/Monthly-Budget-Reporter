@@ -3,11 +3,6 @@
 import { addCategory } from '../stores/categories';
 import AddCategory from './modals/AddCategory.svelte';
 
-
-
-
-
-
   const { open, close } = getContext('simple-modal');
 
   const addCategoryHandler = () => {

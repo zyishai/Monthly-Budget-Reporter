@@ -3,7 +3,7 @@ import 'firebase/database';
 import { readable } from 'svelte/store';
 
 /**
- * @typedef {{ id?: string, name: string, url: string, maxExpense: number }} Category
+ * @typedef {{ id?: string, name: string, url?: string, maxExpense: number }} Category
  * @typedef {String} ID
  */
 
@@ -14,7 +14,12 @@ export const categories = readable([], (set) => {
   const db = firebase.database(firebase.app());
   const categoriesRef = db.ref('categories');
   categoriesRef.on('value', (snapshot) => {
-    set(Object.values(snapshot.val()));
+    const rawData = snapshot.val();
+    const categoriesData = Object.keys(rawData).map((id) => ({
+      id,
+      ...rawData[id],
+    }));
+    set(categoriesData);
   });
 
   return () => categoriesRef.off('value');
