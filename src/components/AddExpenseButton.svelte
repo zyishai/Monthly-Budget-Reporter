@@ -1,7 +1,7 @@
 <script>
   import { getContext } from 'svelte';
-import { getStoreForCategory } from '../stores/expenses';
-import AddExpense from './modals/AddExpense.svelte';
+  import { getStoreForCategory } from '../stores/expenses';
+  import AddExpense from './modals/AddExpense.svelte';
 
   export let categoryId;
   $: store = getStoreForCategory(categoryId);
@@ -14,9 +14,13 @@ import AddExpense from './modals/AddExpense.svelte';
         store.addExpense(expense);
         close();
       }
-    })
+    }, {
+      styleWindow: {
+        borderRadius: '0.258rem'
+      }
+    });
   }
 </script>
 
-<button class="px-3 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg" on:click={addExpenseHandler}>הוסף
+<button class="{$$props.class} text-xs tracking-wide px-3 py-1 bg-purple-200 hover:bg-purple-300 text-purple-800 rounded-sm" on:click={addExpenseHandler}>הוסף
   הוצאה</button>
