@@ -15,7 +15,7 @@
    * @typedef {import('svelte/store').Readable<Expense[]> & {
    *  addExpense: (expense: Expense) => ID,
    *  updateExpense: (id: ID, expense: Expense) => ID,
-   *  deleteExpense: (id: ID) => void,
+   *  deleteExpense: (expense: Expense) => void,
    *  reset: () => void
    * }} Store
    */
@@ -39,10 +39,10 @@
     });
   }
 
-  const confirmDelete = (expenseId) => () => {
+  const confirmDelete = (expense) => () => {
     open(ConfirmExpenseDelete, {
       onConfirm: () => {
-        store.deleteExpense(expenseId);
+        store.deleteExpense(expense);
         close();
       },
       onCancel: () => {
@@ -119,7 +119,7 @@
             </button>
             <button 
               class="flex items-center gap-x-1 px-2 py-1 bg-red-200 hover:bg-red-300 rounded"
-              on:click={confirmDelete(expense.id)}>
+              on:click={confirmDelete(expense)}>
               <Trash class="w-3 h-3" />
               <span class="text-xs">מחיקה</span>
             </button>

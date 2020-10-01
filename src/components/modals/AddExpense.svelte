@@ -15,6 +15,7 @@ import { onMount } from "svelte";
   let item = '';
   let cost;
   let notes = '';
+  let date = Date.now();
 </script>
 
 <div class="flex flex-col mr-8">
@@ -48,5 +49,5 @@ import { onMount } from "svelte";
   </div>
   <button
     class="tracking-wide px-3 py-1 bg-purple-200 hover:bg-purple-300 text-purple-800 rounded self-end"
-    on:click={() => addRow({ item, cost, notes })}>שמירת פריט</button>
+    on:click={() => addRow({ item, cost, notes, date })}>שמירת פריט</button>
 </div>
