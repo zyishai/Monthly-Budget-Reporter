@@ -9,7 +9,14 @@
 
 <style lang="postcss">
   .active {
-    @apply border-r-4 border-purple-400 text-purple-400 font-medium;
+    @apply border-r-4 font-medium;
+    border-color: var(--categoryColor, '#000000');
+    color: var(--categoryColor, '#000000');
+  }
+  .hoverable {
+    &:hover {
+      color: var(--categoryColor, '#000000');
+    }
   }
 </style>
 
@@ -20,9 +27,10 @@
   </a>
   <ul class="flex-1 mb-2 overflow-y-auto">
     {#each $categories as category}
-      <li class="font-light" class:active="{segment === category.id}">
+      <li class="font-light" style="--categoryColor:{category.color}" class:active="{segment === category.id}">
         <a rel="prefetch" href="view/{category.id}"
-          class="flex items-center gap-x-2 p-2 hover:text-purple-400">
+          style="--categoryColor:{category.color}"
+          class="flex items-center gap-x-2 p-2 hoverable">
           <span class="text-sm tracking-wide">{category.name}</span>
         </a>
       </li>

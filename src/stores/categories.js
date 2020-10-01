@@ -3,7 +3,7 @@ import 'firebase/database';
 import { derived, readable } from 'svelte/store';
 
 /**
- * @typedef {{ id?: string, name: string, url?: string, maxExpense: number }} Category
+ * @typedef {{ id?: string, name: string, url?: string, maxExpense: number, color?: string }} Category
  * @typedef {String} ID
  */
 
@@ -42,11 +42,14 @@ export const getCategoryInfoById = (categoryId) =>
 export const addCategory = (category) => {
   const db = firebase.database(firebase.app());
   const categoriesRef = db.ref('categories');
-  const { key } = categoriesRef.push(category, (err) => {
-    if (err) {
-      console.error(err);
-    }
-  });
+  const { key } = categoriesRef.push(
+    { color: '#000000', ...category },
+    (err) => {
+      if (err) {
+        console.error(err);
+      }
+    },
+  );
 
   return key;
 };
