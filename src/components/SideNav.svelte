@@ -1,8 +1,10 @@
 <script>
+  import { stores } from '@sapper/app';
   import { categories } from '../stores/categories';
-import Pen from './svg/Pen.svelte';
+  import Pen from './svg/Pen.svelte';
 
   export let segment = 'home';
+  const { page } = stores();
 </script>
 
 <style lang="postcss">
@@ -12,7 +14,7 @@ import Pen from './svg/Pen.svelte';
 </style>
 
 <nav class="{$$props.class} flex flex-col items-stretch px-3 overflow-hidden">
-  <a rel="prefetch" href="/categories" class="self-start flex items-center gap-x-1 mb-2">
+  <a rel="prefetch" href="/categories?returnUrl={$page.path}" class="self-start flex items-center gap-x-1 mb-2">
     <Pen class="h-3 w-3" />
     <span class="text-xs tracking-wide text-gray-700 hover:text-black underline">עריכת קטגוריות</span>
   </a>
