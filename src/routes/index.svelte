@@ -37,12 +37,9 @@
 	<title>Sapper project template</title>
 </svelte:head>
 
-<h1>Great success!</h1>
+<h1 dir="ltr">Great success!</h1>
 
-<figure>
+<figure dir="ltr">
 	<img alt='Success Kid' src='successkid.jpg'>
-	<figcaption>Have fun with Sapper!</figcaption>
+	<figcaption>Have fun!</figcaption>
 </figure>
-
-<p><strong>Try editing this file (src/routes/index.svelte) to test live reloading.</strong></p>
-<a href="/view">Go to views</a>
