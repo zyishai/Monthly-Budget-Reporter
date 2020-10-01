@@ -19,11 +19,11 @@
 
 <div class="flex-1 h-full flex flex-col items-stretch p-4 overflow-hidden">
   {#if $category}
-    <!-- <h3 class="text-lg tracking-wide mb-5">
-      <span class="text-gray-700">הוצאה מקסימלית חודשית:</span> {$category.maxExpense} ₪
-    </h3> -->
-
-    <div class="flex justify-between mb-2">
+    <div class="flex justify-between items-center mb-2">
+      <h1 class="text-xl tracking-wide">
+        <span>קטגוריה: </span>
+        <span class="font-semibold">{$category.name}</span>
+      </h1>
       <AddExpenseButton {categoryId} />
     </div>
     <ExpensesTable {categoryId} class="flex-1 flex flex-col border-b border-gray-200 mb-2 overflow-hidden" />

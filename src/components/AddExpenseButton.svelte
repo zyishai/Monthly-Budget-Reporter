@@ -23,4 +23,4 @@
 </script>
 
 <button class="{$$props.class} text-xs tracking-wide px-3 py-1 bg-purple-200 hover:bg-purple-300 text-purple-800 rounded-sm" on:click={addExpenseHandler}>הוסף
-  הוצאה</button>
+  פריט</button>
