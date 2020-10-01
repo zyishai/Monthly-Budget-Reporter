@@ -15,7 +15,7 @@ import { onMount } from "svelte";
   let item = '';
   let cost;
   let notes = '';
-  let date = Date.now();
+  let date = new Date().toLocaleDateString('en-CA'); // also: new Date().toISOString().slice(0, 10)
 </script>
 
 <div class="flex flex-col mr-8">
@@ -38,6 +38,14 @@ import { onMount } from "svelte";
         class="px-3 py-2 bg-gray-200 hover:bg-gray-300 focus:bg-gray-300 rounded text-gray-900"
         dir="rtl"
         bind:value={cost} />
+    </label>
+    <label class="flex flex-col">
+      <span class="text-sm font-medium">תאריך תשלום</span>
+      <input
+        type="date"
+        class="px-3 py-2 bg-gray-200 hover:bg-gray-300 focus:bg-gray-300 rounded text-gray-900"
+        dir="rtl"
+        bind:value={date} />
     </label>
     <label class="flex flex-col">
       <span class="text-sm font-medium">הערות</span>
