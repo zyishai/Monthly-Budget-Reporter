@@ -1,7 +1,11 @@
 <script>
   import { getContext } from 'svelte';
   import { getStoreForCategory } from '../stores/expenses';
-  import EditOrDeleteExpense from './modals/EditOrDeleteExpense.svelte';
+  import EditExpense from './modals/EditExpense.svelte';
+  import ConfirmExpenseDelete from './modals/ConfirmExpenseDelete.svelte';
+  import Pen from './svg/Pen.svelte';
+  import Trash from './svg/Trash.svelte';
+
   const { open, close } = getContext('simple-modal');
 
   // Duplicate from `stores/expenses.js`!
@@ -21,15 +25,27 @@
   $: store = getStoreForCategory(categoryId);
   $: expenses = $store;
 
-  const updateOrDeleteExpense = (expense) => () => {
-    open(EditOrDeleteExpense, {
+  const updateExpense = (expense) => () => {
+    open(EditExpense, {
       expense,
       updateEntry: (updatedExpense) => {
         store.updateExpense(updatedExpense.id, updatedExpense);
         close();
+      }
+    }, {
+      styleWindow: {
+        borderRadius: '0.258rem'
+      }
+    });
+  }
+
+  const confirmDelete = (expenseId) => () => {
+    open(ConfirmExpenseDelete, {
+      onConfirm: () => {
+        store.deleteExpense(expenseId);
+        close();
       },
-      deleteEntry: () => {
-        store.deleteExpense(expense.id);
+      onCancel: () => {
         close();
       }
     }, {
@@ -59,38 +75,58 @@
               class="flex-1 px-5 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
               הערות
           </th>
+          <th
+              class="flex-1 px-5 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+              פעולות
+          </th>
       </tr>
   </thead>
   <tbody class="text-center divide-y divide-gray-300 overflow-auto">
     {#if expenses}
-      {#each expenses as expense}
-      <tr class="flex cursor-pointer bg-white text-gray-900 hover:bg-gray-100" on:click={updateOrDeleteExpense(expense)}>
+    {#each expenses as expense}
+      <tr class="flex bg-white text-gray-900">
         <td class="flex-1 px-5 py-5 text-sm">
           <p>
-              {expense.item}
+            {expense.item}
           </p>
         </td>
         <td class="flex-1 px-5 py-5 text-sm">
           <p>
-              {expense.cost} ₪
+            {expense.cost} ₪
           </p>
         </td>
         <td class="flex-1 px-5 py-5 text-sm">
           <p>
-              {
-                new Date(expense.date).toLocaleDateString('he-IL', {
-                  dateStyle: 'short',
-                })
-              }
+            {
+              new Date(expense.date).toLocaleDateString('he-IL', {
+                dateStyle: 'short',
+              })
+            }
           </p>
         </td>
         <td class="flex-1 px-5 py-5 text-sm">
           <p>
-              {expense.notes}
+            {expense.notes}
           </p>
+        </td>
+        <td class="flex-1 px-5 py-5 text-sm">
+          <div class="flex items-center gap-x-2">
+            <button 
+              class="flex items-center gap-x-1 px-2 py-1 bg-gray-200 hover:bg-gray-300 rounded"
+              on:click={updateExpense(expense)}>
+              <Pen class="w-3 h-3" />
+              <span class="text-xs">עריכה</span>
+            </button>
+            <button 
+              class="flex items-center gap-x-1 px-2 py-1 bg-red-200 hover:bg-red-300 rounded"
+              on:click={confirmDelete(expense.id)}>
+              <Trash class="w-3 h-3" />
+              <span class="text-xs">מחיקה</span>
+            </button>
+          </div>
         </td>
     </tr>
       {/each}
-    {/if}
+      {/if}
   </tbody>
 </table>

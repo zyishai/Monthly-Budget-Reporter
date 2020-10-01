@@ -2,14 +2,14 @@
   import { getContext } from 'svelte';
   import { categories, deleteCategory, updateCategoryInfo } from '../stores/categories';
 import ConfirmCategoryDelete from './modals/ConfirmCategoryDelete.svelte';
-  import UpdateCategory from './modals/UpdateCategory.svelte';
+  import EditCategory from './modals/EditCategory.svelte';
   import Pen from './svg/Pen.svelte';
   import Trash from './svg/Trash.svelte';
 
   const { open, close } = getContext('simple-modal');
 
   const updateCategory = (category) => () => {
-    open(UpdateCategory, {
+    open(EditCategory, {
       category,
       updateCategory: (updatedCategory) => {
         updateCategoryInfo(updatedCategory.id, updatedCategory);

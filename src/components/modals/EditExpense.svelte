@@ -3,7 +3,6 @@
 
   export let expense;
   export let updateEntry = () => {};
-  export let deleteEntry = () => {};
 
   /**
    * @type {HTMLInputElement | undefined}
@@ -20,7 +19,7 @@
 </script>
 
 <div class="flex flex-col mr-8">
-  <h1 class="text-lg mb-3">עריכה או מחיקת פריט</h1>
+  <h1 class="text-lg mb-3">עריכת פריט</h1>
 
   <div class="grid grid-flow-row gap-y-3 mb-3">
     <label class="flex flex-col">
@@ -48,12 +47,7 @@
         bind:value={notes}></textarea>
     </label>
   </div>
-  <div class="flex justify-between">
-    <button 
-      class="tracking-wide px-3 py-1 bg-gray-300 hover:bg-gray-400 rounded" 
-      on:click="{deleteEntry}">מחיקת פריט</button>
-    <button
-      class="tracking-wide px-3 py-1 bg-purple-200 hover:bg-purple-300 text-purple-800 rounded"
-      on:click={() => updateEntry({ id: expense.id, item, cost, date: expense.date, notes })}>שמירת עדכון</button>
-  </div>
+  <button
+    class="tracking-wide px-3 py-1 bg-purple-200 hover:bg-purple-300 text-purple-800 rounded self-end"
+    on:click={() => updateEntry({ id: expense.id, item, cost, date: expense.date, notes })}>עדכון פרטי פריט</button>
 </div>
