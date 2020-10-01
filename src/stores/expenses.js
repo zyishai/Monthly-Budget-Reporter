@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/database';
-import { readable } from 'svelte/store';
+import { derived, readable } from 'svelte/store';
 
 /**
  * @param {firebase.database.Reference} ref
@@ -21,7 +21,8 @@ const getRefForItem = (ref, expense) => {
  *  addExpense: (expense: Expense) => ID,
  *  updateExpense: (id: ID, expense: Expense) => ID,
  *  deleteExpense: (expense: Expense) => void,
- *  reset: () => void
+ *  reset: () => void,
+ *  totalExpenses: import('svelte/store').Readable<number>
  * }} Store
  */
 
@@ -36,7 +37,10 @@ export const getStoreForCategory = (categoryId) => {
   const year = today.getFullYear().toString();
   const ref = db.ref(`expenses/${categoryId}`);
 
-  const { subscribe } = readable([], (set) => {
+  /**
+   * @type {import('svelte/store').Readable<Expense[]>}
+   */
+  const store = readable([], (set) => {
     ref
       .child(year)
       .child(month)
@@ -57,7 +61,7 @@ export const getStoreForCategory = (categoryId) => {
   });
 
   return {
-    subscribe,
+    subscribe: store.subscribe,
     addExpense: (expense) => {
       const today = new Date(expense.date);
       const month = (today.getMonth() + 1).toString();
@@ -82,5 +86,8 @@ export const getStoreForCategory = (categoryId) => {
       expenseRef.remove();
     },
     reset: () => ref.remove(),
+    totalExpenses: derived(store, ($expenses) =>
+      $expenses.reduce((sum, expense) => sum + expense.cost, 0),
+    ),
   };
 };

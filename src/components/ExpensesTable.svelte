@@ -8,19 +8,11 @@
 
   const { open, close } = getContext('simple-modal');
 
-  // Duplicate from `stores/expenses.js`!
-  /**
-   * @typedef {String} ID
-   * @typedef {{id?: ID, item: string, cost: number, date: number, notes: string}} Expense
-   * @typedef {import('svelte/store').Readable<Expense[]> & {
-   *  addExpense: (expense: Expense) => ID,
-   *  updateExpense: (id: ID, expense: Expense) => ID,
-   *  deleteExpense: (expense: Expense) => void,
-   *  reset: () => void
-   * }} Store
-   */
-
   export let categoryId;
+  /**
+   * @type {import('../stores/expenses').Store} store
+   * @type {import('../stores/expenses').Expense[]} expenses
+   */
   let store, expenses = [];
   $: store = getStoreForCategory(categoryId);
   $: expenses = $store;
