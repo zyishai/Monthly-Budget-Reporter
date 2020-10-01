@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/database';
-import { readable } from 'svelte/store';
+import { derived, readable } from 'svelte/store';
 
 /**
  * @typedef {{ id?: string, name: string, url?: string, maxExpense: number }} Category
@@ -13,17 +13,27 @@ import { readable } from 'svelte/store';
 export const categories = readable([], (set) => {
   const db = firebase.database(firebase.app());
   const categoriesRef = db.ref('categories');
+
   categoriesRef.on('value', (snapshot) => {
     const rawData = snapshot.val();
-    const categoriesData = Object.keys(rawData).map((id) => ({
-      id,
-      ...rawData[id],
-    }));
-    set(categoriesData);
+    if (rawData) {
+      const categoriesData = Object.keys(rawData).map((id) => ({
+        id,
+        ...rawData[id],
+      }));
+      set(categoriesData);
+    } else {
+      set([]);
+    }
   });
 
   return () => categoriesRef.off('value');
 });
+
+export const getCategoryInfoById = (categoryId) =>
+  derived(categories, ($categories) =>
+    $categories.find((category) => category.id === categoryId),
+  );
 
 /**
  * @param {Category} category
@@ -39,4 +49,19 @@ export const addCategory = (category) => {
   });
 
   return key;
+};
+
+export const updateCategoryInfo = (categoryId, category) => {
+  const db = firebase.database(firebase.app());
+  const categoriesRef = db.ref('categories');
+  const { name, maxExpense } = category;
+
+  categoriesRef.child(categoryId).update({ name, maxExpense });
+  return categoryId;
+};
+
+export const deleteCategory = (categoryId) => {
+  const db = firebase.database(firebase.app());
+  const categoriesRef = db.ref('categories');
+  categoriesRef.child(categoryId).remove();
 };
