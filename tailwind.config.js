@@ -5,6 +5,9 @@ module.exports = {
   },
   purge: [],
   theme: {
+    fontFamily: {
+      sans: ['Heebo', '-apple-system', 'BlinkMacSystemFont', 'Arial'],
+    },
     extend: {},
   },
   variants: {

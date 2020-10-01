@@ -6,3 +6,7 @@ html,
 body {
   direction: rtl;
 }
+
+* {
+  font-family: 'Heebo', Arial, Helvetica, sans-serif !important;
+}
