@@ -13,10 +13,8 @@
     border-color: var(--categoryColor, '#000000');
     color: var(--categoryColor, '#000000');
   }
-  .hoverable {
-    &:hover {
-      color: var(--categoryColor, '#000000');
-    }
+  .hoverable:hover {
+    color: var(--categoryColor, '#000000');
   }
 </style>
 
