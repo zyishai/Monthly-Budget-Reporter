@@ -8,6 +8,7 @@ import { readable } from 'svelte/store';
  * @typedef {import('svelte/store').Readable<Expense[]> & {
  *  addExpense: (expense: Expense) => ID,
  *  updateExpense: (id: ID, expense: Expense) => ID,
+ *  deleteExpense: (id: ID) => void,
  *  reset: () => void
  * }} Store
  */
@@ -29,6 +30,8 @@ export const getStoreForCategory = (categoryId) => {
           ...values[expenseId],
         }));
         set(expensesData);
+      } else {
+        set([]);
       }
     });
 
@@ -48,6 +51,9 @@ export const getStoreForCategory = (categoryId) => {
         .child(id)
         .update({ item, cost, date: expense.date, notes: expense.notes });
       return id;
+    },
+    deleteExpense: (id) => {
+      ref.child(id).remove();
     },
     reset: () => ref.remove(),
   };
