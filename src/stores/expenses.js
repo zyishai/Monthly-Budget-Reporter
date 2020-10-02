@@ -21,8 +21,7 @@ const getRefForItem = (ref, expense) => {
  *  addExpense: (expense: Expense) => ID,
  *  updateExpense: (id: ID, expense: Expense) => ID,
  *  deleteExpense: (expense: Expense) => void,
- *  reset: () => void,
- *  totalExpenses: import('svelte/store').Readable<number>
+ *  reset: () => void
  * }} Store
  */
 
@@ -86,8 +85,5 @@ export const getStoreForCategory = (categoryId) => {
       expenseRef.remove();
     },
     reset: () => ref.remove(),
-    totalExpenses: derived(store, ($expenses) =>
-      $expenses.reduce((sum, expense) => sum + expense.cost, 0),
-    ),
   };
 };

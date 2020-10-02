@@ -1,23 +1,17 @@
 <script>
-import { getStoreForCategory } from "../stores/expenses";
-
+  import { getStatsForCategory } from '../stores/stats';
 
   /**
    * @type {import("../stores/categories").Category}
    */
   export let category;
-  let totalExpenses = 0, 
-      diff = 0, 
-      diffText = 'חיסכון', 
+  let diffText = 'חיסכון', 
       diffSign = '+', 
       saving = true, 
       deficit = false;
-  $: store = getStoreForCategory(category.id);
-  $: storeTotal = store.totalExpenses;
-  $: totalExpenses = $storeTotal;
-  $: diff = category.maxExpense - totalExpenses;
-  $: saving = diff >= 0;
-  $: deficit = diff < 0;
+  $: stats = getStatsForCategory(category);
+  $: saving = $stats.diff >= 0;
+  $: deficit = $stats.diff < 0;
   $: diffText = saving
     ? 'חיסכון'
     : 'גירעון';
@@ -35,11 +29,11 @@ import { getStoreForCategory } from "../stores/expenses";
 
 <p class="text-sm">
   <span>הוצאות לחודש: </span>
-  <strong class="tracking-wide">{totalExpenses} ₪</strong>
+  <strong class="tracking-wide">{$stats.total} ₪</strong>
 </p>
 <p class="text-sm">
   <span>{diffText}: </span>
   <strong class="tracking-wide" class:saving class:deficit>
-    <span dir="ltr">{diffSign}{diff}</span> ₪
+    <span dir="ltr">{diffSign}{$stats.diff}</span> ₪
   </strong>
 </p>
