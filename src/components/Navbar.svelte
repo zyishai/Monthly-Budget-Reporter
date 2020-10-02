@@ -16,8 +16,8 @@
     <li class="px-2 py-1 font-light tracking-wide" class:active="{segment === 'view' || segment === 'categories'}">
       <a rel="prefetch" href="/view" class="text-sm text-gray-700">קטגוריות</a>
     </li>
-    <li class="px-2 py-1 font-light tracking-wide">
-      <a rel="prefetch" href="/" class="text-sm text-gray-700">סטטיסטיקות</a>
+    <li class="px-2 py-1 font-light tracking-wide" class:active="{segment === 'statistics'}">
+      <a rel="prefetch" href="/statistics" class="text-sm text-gray-700">סטטיסטיקות</a>
     </li>
   </ul>
 </nav>
