@@ -3,7 +3,7 @@
 /src/node_modules/@sapper/
 yarn-error.log
 /__sapper__/
-.env
+.env*
 stats.html
 
 # firebase files

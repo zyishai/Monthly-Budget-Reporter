@@ -29,7 +29,9 @@ export default {
         'process.browser': true,
         'process.env': JSON.stringify({
           NODE_ENV: mode,
-          ...dotenv.config().parsed,
+          ...dotenv.config({
+            path: dev ? '.env.dev' : '.env',
+          }).parsed,
         }),
       }),
       svelte({
