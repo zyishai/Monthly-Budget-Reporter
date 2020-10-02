@@ -4,6 +4,7 @@
 yarn-error.log
 /__sapper__/
 .env
+stats.html
 
 # firebase files
 .firebaserc
