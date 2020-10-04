@@ -1,5 +1,6 @@
 <script>
   import Chart from 'chart.js';
+  import Number from '../components/Number.svelte';
   import { getMonthlyStats } from '../stores/stats';
 
   const stats = getMonthlyStats();
@@ -22,25 +23,33 @@
         {
           label: "תקרה",
           data: $stats.categories.map(category => category.maxExpense),
-          backgroundColor: '#ff9696',
+          backgroundColor: '#000',
           barThickness: 15
         },
         {
           label: "הוצאות בפועל",
           data: $stats.categories.map(category => category.total),
-          backgroundColor: i => $stats.categories.length ? $stats.categories[i.dataIndex].color : '#000',
-          barThickness: 20
+          backgroundColor: i => ($stats.categories.length && $stats.categories[i.dataIndex].total > $stats.categories[i.dataIndex].maxExpense) ? '#ff9696' : '#96dd96',
+          barThickness: 15
         }
       ]
     },
     options: {
       maintainAspectRatio: false,
-      events: [],
+      events: ['mousemove'],
       legend: {
+        display: false,
         rtl: true,
       },
       tooltips: {
         rtl: true
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            stepSize: 100
+          }
+        }]
       }
     }
   };
@@ -62,13 +71,17 @@
   <h1 class="self-start text-xl font-medium">
     סטטיסטיקה חודשית
   </h1>
-  <div class="flex gap-x-4 mb-8">
+  <div class="flex gap-x-5 mb-8">
     <div class="flex flex-col items-center">
-      <h2 dir="ltr" class="text-4xl font-bold">{$stats.total}</h2>
+      <h2 dir="ltr" class="text-4xl font-bold">
+        <Number currency="₪">{$stats.total}</Number>
+      </h2>
       <p class="text-sm font-medium tracking-wide">סה״כ הוצאות חודשיות</p>
     </div>
     <div class="flex flex-col items-center" class:saving class:deficit>
-      <h2 dir="ltr" class="text-4xl font-bold">{diffSign} {$stats.diff}</h2>
+      <h2 dir="ltr" class="text-4xl font-bold">
+        {diffSign} <Number currency="₪">{$stats.diff}</Number>
+      </h2>
       <p class="text-sm font-medium tracking-wide">סה״כ {diffText}</p>
     </div>
   </div>
