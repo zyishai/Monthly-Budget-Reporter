@@ -16,7 +16,7 @@
   $: diffSign = saving ? '+' : '';
 
   $: options = {
-    type: 'bar',
+    type: 'horizontalBar',
     data: {
       labels: $stats.categories.map(category => category.name),
       datasets: [
@@ -24,28 +24,33 @@
           label: "תקרה",
           data: $stats.categories.map(category => category.maxExpense),
           backgroundColor: '#000',
-          barThickness: 15
+          barThickness: 15,
+          order: 1
         },
         {
           label: "הוצאות בפועל",
           data: $stats.categories.map(category => category.total),
           backgroundColor: i => ($stats.categories.length && $stats.categories[i.dataIndex].total > $stats.categories[i.dataIndex].maxExpense) ? '#ff9696' : '#96dd96',
-          barThickness: 15
+          barThickness: 15,
+          order: 2
         }
       ]
     },
     options: {
       maintainAspectRatio: false,
-      events: ['mousemove'],
+      events: [],
       legend: {
         display: false,
         rtl: true,
       },
       tooltips: {
-        rtl: true
+        rtl: true,
+        intersect: false,
+        position: 'nearest',
+        mode: 'nearest'
       },
       scales: {
-        yAxes: [{
+        xAxes: [{
           ticks: {
             stepSize: 100
           }
@@ -85,7 +90,7 @@
       <p class="text-sm font-medium tracking-wide">סה״כ {diffText}</p>
     </div>
   </div>
-  <div class="relative flex-1 overflow-auto">
+  <div class="relative flex-1 self-stretch overflow-x-auto">
     <canvas bind:this={canvas}></canvas>
   </div>
 </div>
