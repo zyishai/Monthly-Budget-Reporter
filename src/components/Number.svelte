@@ -10,7 +10,7 @@
 	beforeUpdate(() => {
 		if (valueNode) {
 			const value = +valueNode.textContent;
-			renderedValue = value.toPrecision(precision + 1);
+			renderedValue = !Number.isInteger(value) ? value.toFixed(precision) : value;
 		}
 	});
 </script>
