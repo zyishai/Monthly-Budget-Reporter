@@ -9,12 +9,14 @@
     "start": "node __sapper__/build"
   },
   "dependencies": {
+    "chart.js": "^2.9.3",
     "compression": "^1.7.1",
     "dotenv": "^8.2.0",
     "firebase": "^7.21.1",
     "polka": "next",
     "postcss": "^8.1.1",
     "postcss-load-config": "^2.1.2",
+    "rxjs": "^6.6.3",
     "sirv": "^1.0.0"
   },
   "devDependencies": {

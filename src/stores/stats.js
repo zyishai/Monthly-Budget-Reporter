@@ -1,9 +1,10 @@
-import { derived, get, readable } from 'svelte/store';
+import { BehaviorSubject } from 'rxjs';
+import { derived } from 'svelte/store';
 import { categories } from './categories';
 import { getStoreForCategory } from './expenses';
 
 /**
- * @typedef {{ total: number, diff: number }} Stat
+ * @typedef {{ total: number, diff: number, category: import('./categories').Category }} Stat
  * @param {import("./categories").Category} category
  * @returns {import('svelte/store').Readable<Stat>}
  */
@@ -15,39 +16,54 @@ export const getStatsForCategory = (category) => {
     const diff = category.maxExpense - total;
 
     return {
+      category,
       total,
       diff,
     };
   });
 };
 
-/**
- * @returns {import('svelte/store').Readable<Stat>}
- */
 export const getMonthlyStats = () => {
-  /**
-   * @type {import('./categories').Category[]}
-   */
-  const $categories = get(categories);
-  const categoriesStats = $categories.map((category) =>
-    getStatsForCategory(category),
-  );
+  const store = new BehaviorSubject({
+    /**
+     * @type {Array<import('./categories').Category & {diff: number, total: number}>}
+     */
+    categories: [],
+    total: 0,
+    diff: 0,
+  });
 
-  if (categoriesStats.length) {
+  derived(categories, ($categories) => {
+    /**
+     * @type {import('svelte/store').Readable<Stat>[]}
+     */
+    const categoriesStats = $categories.map((category) =>
+      getStatsForCategory(category),
+    );
+
     // @ts-ignore
     return derived(categoriesStats, ($stats) =>
-      $stats.reduce((acc, stat) => ({
-        total: acc.total + stat.total,
-        diff: acc.diff + stat.diff,
-      })),
+      $stats.reduce(
+        (acc, stat) => ({
+          categories: [
+            ...acc.categories,
+            {
+              ...stat.category,
+              total: stat.total,
+              diff: stat.diff,
+            },
+          ],
+          total: acc.total + stat.total,
+          diff: acc.diff + stat.diff,
+        }),
+        {
+          categories: [],
+          total: 0,
+          diff: 0,
+        },
+      ),
     );
-  } else {
-    return readable(
-      {
-        total: 0,
-        diff: 0,
-      },
-      () => {},
-    );
-  }
+  }).subscribe(($store) => $store.subscribe((stat) => store.next(stat)));
+
+  return store.asObservable();
 };
