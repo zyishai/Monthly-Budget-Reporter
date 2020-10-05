@@ -24,6 +24,11 @@
 	     lazily loaded when it precaches secondary pages -->
     %sapper.styles%
 
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+      google.charts.load('current', { packages: ['corechart'] });
+    </script>
+
     <!-- Sapper creates a <script> tag containing `src/client.js`
 	     and anything else it needs to hydrate the app and
 	     initialise the router -->

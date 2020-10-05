@@ -1,66 +1,21 @@
 <script>
-  import Chart from 'chart.js';
+  import CategoriesStats from '../components/charts/CategoriesStats.svelte';
   import Number from '../components/Number.svelte';
   import { getMonthlyStats } from '../stores/stats';
 
   const stats = getMonthlyStats();
-  let diffText = 'חיסכון', 
-      diffSign = '+', 
-      saving = true, 
-      deficit = false;
+  let monthlyBudget = 0,
+  diffText = 'חיסכון', 
+  diffSign = '+', 
+  saving = true, 
+  deficit = false;
   $: saving = $stats.diff >= 0;
   $: deficit = $stats.diff < 0;
   $: diffText = saving
-    ? 'חיסכון'
-    : 'גירעון';
+  ? 'חיסכון'
+  : 'גירעון';
   $: diffSign = saving ? '+' : '';
-
-  $: options = {
-    type: 'horizontalBar',
-    data: {
-      labels: $stats.categories.map(category => category.name),
-      datasets: [
-        {
-          label: "תקרה",
-          data: $stats.categories.map(category => category.maxExpense),
-          backgroundColor: '#000',
-          barThickness: 15,
-          order: 1
-        },
-        {
-          label: "הוצאות בפועל",
-          data: $stats.categories.map(category => category.total),
-          backgroundColor: i => ($stats.categories.length && $stats.categories[i.dataIndex].total > $stats.categories[i.dataIndex].maxExpense) ? '#ff9696' : '#96dd96',
-          barThickness: 15,
-          order: 2
-        }
-      ]
-    },
-    options: {
-      maintainAspectRatio: false,
-      events: [],
-      legend: {
-        display: false,
-        rtl: true,
-      },
-      tooltips: {
-        rtl: true,
-        intersect: false,
-        position: 'nearest',
-        mode: 'nearest'
-      },
-      scales: {
-        xAxes: [{
-          ticks: {
-            stepSize: 100
-          }
-        }]
-      }
-    }
-  };
-  let canvas;
-  let chart;
-  $: canvas ? chart = new Chart(canvas, options) : null;
+  $: monthlyBudget = $stats.categories.reduce((budget, category) => +budget + +category.maxExpense, 0);
 </script>
 
 <style lang="postcss">
@@ -76,7 +31,13 @@
   <h1 class="self-start text-xl font-medium">
     סטטיסטיקה חודשית
   </h1>
-  <div class="flex gap-x-5 mb-8">
+  <div class="flex gap-x-8 mb-1">
+    <div class="flex flex-col items-center">
+      <h2 dir="ltr" class="text-4xl font-bold">
+        <Number currency="₪">{monthlyBudget}</Number>
+      </h2>
+      <p class="text-sm font-medium tracking-wide">תקציב חודשי (תקרה)</p>
+    </div>
     <div class="flex flex-col items-center">
       <h2 dir="ltr" class="text-4xl font-bold">
         <Number currency="₪">{$stats.total}</Number>
@@ -90,7 +51,5 @@
       <p class="text-sm font-medium tracking-wide">סה״כ {diffText}</p>
     </div>
   </div>
-  <div class="relative flex-1 self-stretch overflow-x-auto">
-    <canvas bind:this={canvas}></canvas>
-  </div>
+  <CategoriesStats class="flex-1 self-stretch" categories={$stats.categories} />
 </div>
