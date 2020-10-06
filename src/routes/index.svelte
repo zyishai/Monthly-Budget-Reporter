@@ -17,8 +17,6 @@
 
 	img {
 		display: inline-block;
-		width: 100%;
-		max-width: 400px;
 		margin: 0 auto 1em auto;
 	}
 
@@ -30,12 +28,14 @@
 </style>
 
 <svelte:head>
-	<title>Sapper project template</title>
+	<title>ניהול תקציב חודשי | בית</title>
 </svelte:head>
 
-<h1 dir="ltr">Great success!</h1>
+<div class="h-screen flex flex-col">
+	<h1 dir="ltr">Great success!</h1>
 
-<figure dir="ltr">
-	<img alt='Success Kid' src='successkid.jpg'>
-	<figcaption>Have fun!</figcaption>
-</figure>
+	<figure dir="ltr" class="flex-1">
+		<img alt='Success Kid' src='successkid.png' class="object-contain">
+		<figcaption>Have fun!</figcaption>
+	</figure>
+</div>

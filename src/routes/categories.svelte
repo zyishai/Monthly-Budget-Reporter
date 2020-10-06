@@ -9,6 +9,10 @@
   $: returnUrl = $page.query.returnUrl;
 </script>
 
+<svelte:head>
+	<title>ניהול תקציב חודשי | קטגוריות</title>
+</svelte:head>
+
 <div class="flex-1 w-2/3 py-4 px-2 mx-auto flex flex-col overflow-hidden">
   <div class="flex justify-between items-center">
     <div class="flex items-center gap-x-2">

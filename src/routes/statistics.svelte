@@ -27,6 +27,10 @@
   }
 </style>
 
+<svelte:head>
+	<title>ניהול תקציב חודשי | סטטיסטיקות</title>
+</svelte:head>
+
 <div class="flex-1 flex flex-col items-center p-4">
   <h1 class="self-start text-xl font-medium">
     סטטיסטיקה חודשית
