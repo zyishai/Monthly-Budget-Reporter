@@ -1,5 +1,6 @@
 <script>
   import { getStatsForCategory } from '../stores/stats';
+import Number from './Number.svelte';
 
   /**
    * @type {import("../stores/categories").Category}
@@ -29,11 +30,15 @@
 
 <p class="text-sm">
   <span>הוצאות לחודש: </span>
-  <strong class="tracking-wide">{$stats.total} ₪</strong>
+  <strong class="tracking-wide">
+    <Number>{$stats.total}</Number>
+   ₪</strong>
 </p>
 <p class="text-sm">
   <span>{diffText}: </span>
   <strong class="tracking-wide" class:saving class:deficit>
-    <span dir="ltr">{diffSign}{$stats.diff}</span> ₪
+    <span dir="ltr">
+      {diffSign}<Number>{$stats.diff}</Number>
+    </span> ₪
   </strong>
 </p>
