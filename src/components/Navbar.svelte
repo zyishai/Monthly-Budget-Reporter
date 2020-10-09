@@ -1,19 +1,23 @@
 <script>
   import { slide } from 'svelte/transition';
+  import { categories } from '../stores/categories';
   import HamburgerMenu from './HamburgerMenu.svelte';
+  import LeftCarret from './svg/LeftCarret.svelte';
+
   export let segment;
 
-  const pages = [
+  $: pages = [
     {
-      title: 'עמוד הבית',
+      name: 'עמוד הבית',
       url: '',
     },
     {
-      title: 'קטגוריות',
+      name: 'קטגוריות',
       url: 'view',
+      children: $categories
     },
     {
-      title: 'סטטיסטיקות',
+      name: 'סטטיסטיקות',
       url: 'statistics',
     },
   ];
@@ -62,7 +66,7 @@
   <ul class="hidden sm:flex items-center gap-x-3">
     {#each pages as page}
       <li class="px-2 py-1 font-light tracking-wide" class:active={segment === page.url || (!page.url && segment === undefined)}>
-        <a rel="prefetch" href="/{page.url}" class="text-sm text-gray-700">{page.title}</a>
+        <a rel="prefetch" href="/{page.url}" class="text-sm text-gray-700">{page.name}</a>
       </li>
     {/each}
   </ul>
@@ -71,17 +75,46 @@
   </div>
   <HamburgerMenu 
     let:closeMenu>
-    <ul 
+    <div
       id="mobile-nav" 
-      class="flex sm:hidden flex-col justify-center items-center gap-y-3 -mx-3 bg-gray-200"
+      class="flex sm:hidden justify-center items-center -mx-3 bg-gray-200"
       transition:slide={{
         duration: 300
       }}>
-      {#each pages as page}
-        <li class="sm:px-2 sm:py-1 font-normal sm:font-light tracking-widest sm:tracking-wide" class:active={segment === page.url || (!page.url && segment === undefined)}>
-          <a rel="prefetch" href="/{page.url}" class="text-xl sm:text-sm text-gray-700" on:click={closeMenu}>{page.title}</a>
-        </li>
-      {/each}
-    </ul>
+      <ul 
+        id="mobile-nav" 
+        class="flex flex-col gap-y-3"
+        transition:slide={{
+          duration: 300
+        }}>
+        {#each pages as page}
+          <li class="sm:px-2 sm:py-1 font-normal sm:font-light tracking-widest sm:tracking-wide">
+            {#if page.children}
+              <div class="flex items-center gap-x-1 -mx-3 cursor-pointer" class:active={segment === page.url} on:click={() => page.expand = !page.expand}>
+                <LeftCarret class={`h-2 w-2 transition duration-300 ${page.expand && 'transform -rotate-90'}`} />
+                <span class="text-xl sm:text-sm text-gray-700">{page.name}</span>
+              </div>
+              {#if page.expand} <!-- dynamic property -->
+                <ul
+                transition:slide={{
+                  duration: 300
+                }}>
+                  {#each page.children as child}
+                    <li>
+                      <a rel="prefetch" href="/{page.url}/{child.id}" class="text-base text-gray-700" on:click={() => {
+                        page.expand = false;
+                        closeMenu();
+                      }}>{child.name}</a>
+                    </li>
+                  {/each}
+                </ul>
+              {/if}
+            {:else}
+              <a rel="prefetch" href="/{page.url}" class="text-xl sm:text-sm text-gray-700" class:active={segment === page.url || (!page.url && segment === undefined)} on:click={closeMenu}>{page.name}</a>
+            {/if}
+          </li>
+        {/each}
+      </ul>
+    </div>
   </HamburgerMenu>
 </nav>
