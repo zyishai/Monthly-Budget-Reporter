@@ -1,4 +1,4 @@
-<style>
+<!-- <style>
 	h1, figure {
 		text-align: center;
 		margin: 0 auto;
@@ -25,17 +25,23 @@
 			font-size: 4em;
 		}
 	}
-</style>
+</style> -->
 
 <svelte:head>
 	<title>ניהול תקציב חודשי | בית</title>
 </svelte:head>
 
-<div class="h-screen flex flex-col">
-	<h1 dir="ltr">Great success!</h1>
+<div dir="ltr" class="h-full flex flex-col sm:justify-center items-center">
+	<h1 class="text-3xl font-bold text-gray-800 tracking-wider mb-1">Great success!</h1>
 
-	<figure dir="ltr" class="flex-1">
-		<img alt='Success Kid' src='successkid.png' class="object-contain">
-		<figcaption>Have fun!</figcaption>
+	<figure class="text-center">
+		<img alt='Success Kid' src='successkid.png' class="object-contain opacity-75">
+		<figcaption class="text-lg font-medium tracking-wider text-gray-700">Have fun!</figcaption>
 	</figure>
+
+	<footer class="absolute bottom-0 w-full text-center py-3">
+		פיתוח ועיצוב - ישי זהבי 
+		{ new Date().getFullYear() }
+		&copy;
+	</footer>
 </div>
