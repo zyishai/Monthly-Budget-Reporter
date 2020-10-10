@@ -56,7 +56,8 @@
     }
     
     .active {
-      @apply border-b-0 font-semibold;
+      font-weight: 600;
+      border-width: 0;
     }
   }
 
@@ -81,12 +82,7 @@
       transition:slide={{
         duration: 300
       }}>
-      <ul 
-        id="mobile-nav" 
-        class="flex flex-col gap-y-3"
-        transition:slide={{
-          duration: 300
-        }}>
+      <ul class="flex flex-col gap-y-3">
         {#each pages as page}
           <li class="sm:px-2 sm:py-1 font-normal sm:font-light tracking-widest sm:tracking-wide">
             {#if page.children}
