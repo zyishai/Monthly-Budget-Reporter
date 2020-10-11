@@ -3,11 +3,14 @@
   "theme_color": "#333333",
   "name": "תקציב חודשי",
   "short_name": "תקציב חודשי",
+  "description": "אפליקציה לניהול תקציב חודשי",
   "display": "standalone",
   "start_url": "/",
+  "scope": "/",
   "icons": [
     {
       "src": "budget.svg",
+      "type": "image/svg+xml",
       "sizes": "512x512 192x192 96x96"
     }
   ]
