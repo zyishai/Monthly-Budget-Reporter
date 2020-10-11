@@ -31,14 +31,14 @@ import Number from './Number.svelte';
 <p class="text-sm">
   <span>הוצאות לחודש: </span>
   <strong class="tracking-wide">
-    <Number>{$stats.total}</Number>
-   ₪</strong>
+    <Number currency='₪'>{$stats.total}</Number>
+  </strong>
 </p>
 <p class="text-sm">
   <span>{diffText}: </span>
   <strong class="tracking-wide" class:saving class:deficit>
-    <span dir="ltr">
-      {diffSign}<Number>{$stats.diff}</Number>
-    </span> ₪
+    <span>
+      <Number positiveSign={diffSign} currency="₪">{$stats.diff}</Number>
+    </span>
   </strong>
 </p>
