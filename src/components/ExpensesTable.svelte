@@ -5,6 +5,7 @@
   import ConfirmExpenseDelete from './modals/ConfirmExpenseDelete.svelte';
   import Pen from './svg/Pen.svelte';
   import Trash from './svg/Trash.svelte';
+  import Number from './Number.svelte';
 
   const { open, close } = getContext('simple-modal');
 
@@ -48,7 +49,7 @@
   }
 </script>
 
-<table class="{$$props.class} min-w-full leading-normal overflow-hidden">
+<table class="{$$props.class} flex-1 min-w-full hidden sm:flex sm:flex-col leading-normal overflow-hidden">
   <thead class="bg-gray-200 border-b-2 border-gray-300">
       <tr class="flex">
           <th
@@ -84,7 +85,9 @@
         </td>
         <td class="flex-1 px-5 py-5 text-sm">
           <p>
-            {expense.cost} ₪
+            <Number currency='₪'>
+              {expense.cost}
+            </Number>
           </p>
         </td>
         <td class="flex-1 px-5 py-5 text-sm">
