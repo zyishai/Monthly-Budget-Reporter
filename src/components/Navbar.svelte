@@ -71,9 +71,6 @@
       </li>
     {/each}
   </ul>
-  <div class="flex items-center mr-auto">
-    <span class="font-bold tracking-wide">{hebMonthName} {year}</span>
-  </div>
   <HamburgerMenu 
     let:closeMenu>
     <div
@@ -113,4 +110,7 @@
       </ul>
     </div>
   </HamburgerMenu>
+  <div class="flex items-center m-auto sm:m-0 sm:mr-auto">
+    <span class="font-bold tracking-wide">{hebMonthName} {year}</span>
+  </div>
 </nav>
