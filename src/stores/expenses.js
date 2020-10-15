@@ -1,6 +1,17 @@
 import firebase from 'firebase/app';
 import 'firebase/database';
-import { derived, readable } from 'svelte/store';
+import { readable } from 'svelte/store';
+
+/**
+ * @param {firebase.database.Reference} ref
+ * @param {string} year
+ * @param {string} month
+ *
+ * @returns {firebase.database.Reference}
+ */
+const getYearMonthRef = (ref, year, month) => {
+  return ref.child(year).child(month);
+};
 
 /**
  * @param {firebase.database.Reference} ref
@@ -12,7 +23,7 @@ const getRefForItem = (ref, expense) => {
   const expenseDate = new Date(date);
   const month = (expenseDate.getMonth() + 1).toString();
   const year = expenseDate.getFullYear().toString();
-  return ref.child(year).child(month).child(id).ref;
+  return getYearMonthRef(ref, year, month).child(id).ref;
 };
 /**
  * @typedef {String} ID
@@ -70,15 +81,25 @@ export const getStoreForCategory = (categoryId) => {
       return key;
     },
     updateExpense: (id, expense) => {
-      const { item, cost } = expense;
-      const expenseRef = getRefForItem(ref, expense);
-      expenseRef.update({
-        item,
-        cost,
-        date: expense.date,
-        notes: expense.notes,
-      });
-      return id;
+      const today = new Date();
+      const month = (today.getMonth() + 1).toString();
+      const year = today.getFullYear().toString();
+      const expenseRef = getYearMonthRef(ref, year, month).child(id).ref;
+
+      const updatedDate = new Date(expense.date);
+      if (
+        updatedDate.getFullYear().toString() !== expenseRef.parent.parent.key ||
+        (updatedDate.getMonth() + 1).toString() !== expenseRef.parent.key
+      ) {
+        const year = updatedDate.getFullYear().toString();
+        const month = (updatedDate.getMonth() + 1).toString();
+        const { key } = getYearMonthRef(ref, year, month).push(expense);
+        expenseRef.remove();
+        return key;
+      } else {
+        expenseRef.update(expense);
+        return id;
+      }
     },
     deleteExpense: (expense) => {
       const expenseRef = getRefForItem(ref, expense);
