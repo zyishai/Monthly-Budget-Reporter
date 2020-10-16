@@ -41,7 +41,7 @@
         bind:value={cost} />
     </label>
     <label class="flex flex-col">
-      <span class="text-sm font-medium">עלות הפריט</span>
+      <span class="text-sm font-medium">תאריך תשלום</span>
       <input
         type="date"
         class="px-3 py-2 bg-gray-200 focus:bg-gray-300 rounded text-gray-900"
