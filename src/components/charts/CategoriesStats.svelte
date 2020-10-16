@@ -32,10 +32,10 @@
         direction: -1,
       },
       legend: {
-        position: 'none'
+        position: 'left'
       },
       bar: {
-        groupWidth: '70%'
+        groupWidth: '80%'
       },
       colors: ['#595959']
     };
@@ -54,6 +54,13 @@
   svg text[text-anchor="middle"] {
     direction: rtl !important;
   }
+  @media screen and (max-width: 640px) {
+    #chart {
+      width: 500%;
+    }
+  }
 </style>
 
-<div bind:this={chartContainer} class={$$props.class}></div>
+<div class="overflow-x-auto sm:overflow-hidden {$$props.class}">
+  <div id="chart" bind:this={chartContainer}></div>
+</div>
