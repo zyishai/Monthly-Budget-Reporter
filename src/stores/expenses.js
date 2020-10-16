@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/database';
-import { readable } from 'svelte/store';
+import { get, readable } from 'svelte/store';
+import { dateview } from './dateview';
 
 /**
  * @param {firebase.database.Reference} ref
@@ -42,48 +43,48 @@ const getRefForItem = (ref, expense) => {
  */
 export const getStoreForCategory = (categoryId) => {
   const db = firebase.database(firebase.app());
-  const today = new Date();
-  const month = (today.getMonth() + 1).toString();
-  const year = today.getFullYear().toString();
   const ref = db.ref(`expenses/${categoryId}`);
 
   /**
    * @type {import('svelte/store').Readable<Expense[]>}
    */
   const store = readable([], (set) => {
-    ref
-      .child(year)
-      .child(month)
-      .on('value', (snapshot) => {
-        const values = snapshot.val();
-        if (values) {
-          const expensesData = Object.keys(values).map((expenseId) => ({
-            id: expenseId,
-            ...values[expenseId],
-          }));
-          set(expensesData);
-        } else {
-          set([]);
-        }
-      });
+    const unsubscribe = dateview.subscribe(({ month, year }) => {
+      ref.off('value'); // clean previous listener
+      ref
+        .child(year + '')
+        .child(month + '')
+        .on('value', (snapshot) => {
+          const values = snapshot.val();
+          if (values) {
+            const expensesData = Object.keys(values).map((expenseId) => ({
+              id: expenseId,
+              ...values[expenseId],
+            }));
+            set(expensesData);
+          } else {
+            set([]);
+          }
+        });
+    });
 
-    return () => ref.off('value');
+    return () => {
+      ref.off('value');
+      unsubscribe();
+    };
   });
 
   return {
     subscribe: store.subscribe,
     addExpense: (expense) => {
-      const today = new Date(expense.date);
-      const month = (today.getMonth() + 1).toString();
-      const year = today.getFullYear().toString();
+      const { month, year } = get(dateview);
 
-      const { key } = ref.child(year).child(month).push(expense);
+      const { key } = getYearMonthRef(ref, year, month).push(expense);
       return key;
     },
     updateExpense: (id, expense) => {
-      const today = new Date();
-      const month = (today.getMonth() + 1).toString();
-      const year = today.getFullYear().toString();
+      const { month, year } = get(dateview);
+
       const expenseRef = getYearMonthRef(ref, year, month).child(id).ref;
 
       const updatedDate = new Date(expense.date);
