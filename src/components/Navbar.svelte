@@ -3,6 +3,7 @@
   import { categories } from '../stores/categories';
   import HamburgerMenu from './HamburgerMenu.svelte';
   import LeftCarret from './svg/LeftCarret.svelte';
+  import YearMonthSelector from './YearMonthSelector.svelte';
 
   export let segment;
 
@@ -21,23 +22,6 @@
       url: 'statistics',
     },
   ];
-
-  const months = [
-    'ינואר',
-    'פברואר',
-    'מרץ',
-    'אפריל',
-    'מאי',
-    'יוני',
-    'יולי',
-    'אוגוסט',
-    'ספטמבר',
-    'אוקטובר',
-    'נובמבר',
-    'דצמבר'
-  ];
-  const hebMonthName = months[new Date().getMonth()];
-  const year = new Date().getFullYear();
 </script>
 
 <style lang="postcss">
@@ -110,7 +94,5 @@
       </ul>
     </div>
   </HamburgerMenu>
-  <div class="flex items-center m-auto sm:m-0 sm:mr-auto">
-    <span class="font-bold tracking-wide">{hebMonthName} {year}</span>
-  </div>
+  <YearMonthSelector class="m-auto sm:m-0 sm:mr-auto" />
 </nav>
