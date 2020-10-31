@@ -38,7 +38,8 @@
         type="number"
         class="px-3 py-2 bg-gray-200 focus:bg-gray-300 rounded text-gray-900"
         dir="rtl"
-        bind:value={cost} />
+        bind:value={cost}
+        step="any" />
     </label>
     <label class="flex flex-col">
       <span class="text-sm font-medium">תאריך תשלום</span>
