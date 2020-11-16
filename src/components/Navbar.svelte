@@ -1,12 +1,16 @@
 <script>
+  import { stores } from '@sapper/app';
   import { slide } from 'svelte/transition';
   import { categories } from '../stores/categories';
+  import { menuStore } from '../stores/menu';
   import HamburgerMenu from './HamburgerMenu.svelte';
+  import OptionsIcon from './svg/Options.svelte';
   import LeftCarret from './svg/LeftCarret.svelte';
   import YearMonthSelector from './YearMonthSelector.svelte';
 
   export let segment;
 
+  const { page } = stores();
   $: pages = [
     {
       name: 'עמוד הבית',
@@ -99,4 +103,7 @@
     </div>
   </HamburgerMenu>
   <YearMonthSelector class="m-auto sm:m-0 sm:mr-auto" />
+  <a rel="prefetch" href="/categories?returnUrl={$page.path}" class="sm:hidden" on:click={() => {menuStore.close(); return true;}}>
+    <OptionsIcon class="stroke-0 cursor-pointer" />
+  </a>
 </nav>
