@@ -21,6 +21,10 @@
       name: 'סטטיסטיקות',
       url: 'statistics',
     },
+    {
+      name: 'אודות',
+      url: 'about'
+    }
   ];
 </script>
 

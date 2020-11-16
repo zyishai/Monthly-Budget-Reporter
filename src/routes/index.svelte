@@ -39,9 +39,9 @@
 		<figcaption class="text-lg font-medium tracking-wider text-gray-700">Have fun!</figcaption>
 	</figure>
 
-	<footer class="absolute bottom-0 w-full text-center py-3">
+	<!-- <footer class="absolute bottom-0 w-full text-center py-3">
 		פיתוח ועיצוב - ישי זהבי 
 		{ new Date().getFullYear() }
 		&copy;
-	</footer>
+	</footer> -->
 </div>
