@@ -41,11 +41,12 @@
       <label class="flex flex-col">
         <span class="text-sm font-medium">הוצאה מקסימלית</span>
         <input
-          type="text"
+          type="number"
           class="px-3 py-2 bg-gray-200 hover:bg-gray-300 focus:bg-gray-300 rounded text-gray-900"
           dir="rtl"
           bind:value={maxExpense}
-          required={true} />
+          required={true}
+          step="any" />
       </label>
     </div>
     <button
