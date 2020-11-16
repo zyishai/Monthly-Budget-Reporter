@@ -1,9 +1,10 @@
 <script>
-  export let open = false;
+  import { menuStore } from '../stores/menu';
 
-  const openMenu = () => open = true;
-  const closeMenu = () => open = false;
-  const toggleMenu = () => open = !open;
+  $: open = $menuStore;
+  const openMenu = () => menuStore.open();
+  const closeMenu = () => menuStore.close();
+  const toggleMenu = () => menuStore.toggle();
 </script>
 
 <style lang="postcss">
