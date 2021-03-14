@@ -90,7 +90,7 @@
             </button>
           </div>
         </td>
-    </tr>
+      </tr>
       {/each}
   </tbody>
 </table>

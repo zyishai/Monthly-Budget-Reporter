@@ -15,6 +15,7 @@
     'דצמבר'
   ];
   const changeMonth = e => dateview.changeMonth(e.target.value);
+  const changeYear = e => dateview.changeYear(e.target.value);
 </script>
 
 <div class="flex items-center {$$props.class}">
@@ -27,6 +28,13 @@
         <option value="{index + 1}">{month}</option>
       {/each}
     </select>
-     {$dateview.year}
+    <select 
+      class="appearance-none outline-none text-center font-bold tracking-wide border-b-2 border-dotted border-black"
+      value={$dateview.year}
+      on:input="{changeYear}">
+      <!-- FIX: get list of years based on user's data -->
+      <option value={2020}>2020</option>
+      <option value={2021}>2021</option>
+    </select>
   </span>
 </div>

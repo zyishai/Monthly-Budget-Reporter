@@ -27,10 +27,10 @@
           <span>קטגוריה: </span>
           <strong>{$category.name}</strong>
         </h1>
-        <p class="text-sm">
+        <!-- <p class="text-sm">
           <span>רף הוצאות מקסימלי: </span>
           <strong class="tracking-wide">{$category.maxExpense} ₪</strong>
-        </p>
+        </p> -->
       </div>
       <div class="hidden sm:block">
         <AddExpenseButton {categoryId} />
