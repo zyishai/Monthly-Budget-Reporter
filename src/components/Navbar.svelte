@@ -5,8 +5,9 @@
   import { menuStore } from '../stores/menu';
   import HamburgerMenu from './HamburgerMenu.svelte';
   import OptionsIcon from './svg/Options.svelte';
-  import LeftCarret from './svg/LeftCarret.svelte';
+  // import LeftCarret from './svg/LeftCarret.svelte';
   import YearMonthSelector from './YearMonthSelector.svelte';
+import CategoryBadge from './CategoryBadge.svelte';
 
   export let segment;
 
@@ -74,12 +75,12 @@
       <ul class="flex flex-col gap-y-3">
         {#each pages as page}
           <li class="sm:px-2 sm:py-1 font-normal sm:font-light tracking-widest sm:tracking-wide">
-            {#if page.children}
+            <!-- {#if page.children}
               <div class="flex items-center gap-x-1 -mx-3 cursor-pointer" class:active={segment === page.url} on:click={() => page.expand = !page.expand}>
                 <LeftCarret class={`h-2 w-2 transition duration-300 ${page.expand && 'transform -rotate-90'}`} />
                 <span class="text-xl sm:text-sm text-gray-700">{page.name}</span>
               </div>
-              {#if page.expand} <!-- dynamic property -->
+              {#if page.expand}
                 <ul
                 transition:slide={{
                   duration: 300
@@ -94,9 +95,9 @@
                   {/each}
                 </ul>
               {/if}
-            {:else}
+            {:else} -->
               <a rel="prefetch" href="/{page.url}" class="text-xl sm:text-sm text-gray-700" class:active={segment === page.url || (!page.url && segment === undefined)} on:click={closeMenu}>{page.name}</a>
-            {/if}
+            <!-- {/if} -->
           </li>
         {/each}
       </ul>
@@ -107,3 +108,13 @@
     <OptionsIcon class="stroke-0 cursor-pointer" />
   </a>
 </nav>
+<div class="sm:hidden relative my-3 mx-2 overflow-hidden">
+  <div class="flex-1 flex gap-x-3 overflow-x-auto overflow-y-hidden">
+    {#each $categories as category}
+      <CategoryBadge class="flex-shrink-0 {($page.path === `/view/${category.id}`) ? 'text-gray-600 border-gray-500 bg-gray-200' : ''}">
+        <a href="/view/{category.id}">{category.name}</a>
+      </CategoryBadge>
+    {/each}
+  </div>
+  <div class="absolute h-full w-8 top-0 left-0 bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
+</div>
