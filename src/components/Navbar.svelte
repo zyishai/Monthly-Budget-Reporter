@@ -108,7 +108,7 @@ import CategoryBadge from './CategoryBadge.svelte';
     <OptionsIcon class="stroke-0 cursor-pointer" />
   </a>
 </nav>
-<div class="sm:hidden relative my-3 mx-2 overflow-hidden">
+<div class="sm:hidden {segment === 'view' ? 'block' : 'hidden'} relative my-3 mx-2 overflow-hidden">
   <div class="flex-1 flex gap-x-3 overflow-x-auto overflow-y-hidden">
     {#each $categories as category}
       <CategoryBadge class="flex-shrink-0 {($page.path === `/view/${category.id}`) ? 'text-gray-600 border-gray-500 bg-gray-200' : ''}">
